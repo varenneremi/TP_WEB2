@@ -30,10 +30,11 @@ public class HttpStaticRequest extends HttpRequest {
 			// We found the file and send it
 			resp.setReplyOk();
 			resp.setContentLength((int) m_file.length());
-			resp.setContentType(m_ressname);
+			resp.setContentType(getContentType(m_ressname));
 			ps = resp.beginBody();
 			sendFile(ps, fis);
 			
+			fis.close();
 		} catch (FileNotFoundException e) {
 			// We didn't find the file and send an error
 			resp.setReplyError(404, e.toString());
@@ -47,7 +48,7 @@ public class HttpStaticRequest extends HttpRequest {
 		
 		try {
 			while((n = fis.read(buffer)) >= 0) {
-				
+				ps.write(buffer, 0, n);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
