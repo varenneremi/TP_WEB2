@@ -76,7 +76,12 @@ public class HttpServer {
 		String method = parse.nextToken().toUpperCase(); 
 		String ressname = parse.nextToken();
 		if (method.equals("GET")) {
-			request = new HttpStaticRequest(this, method, ressname);
+			if(ressname.startsWith("/ricmlets/")) {
+				ressname = ressname.substring("/ricmlet/".length());
+				request = new HttpRicmletRequestImpl(this, method, ressname);
+			} else {
+				request = new HttpStaticRequest(this, method, ressname);
+			}
 		} else 
 			request = new UnknownRequest(this, method, ressname);
 		return request;
@@ -87,7 +92,11 @@ public class HttpServer {
 	 * Returns an HttpResponse object corresponding the the given HttpRequest object
 	 */
 	public HttpResponse getResponse(HttpRequest req, PrintStream ps) {
-		return new HttpResponseImpl(this, req, ps);
+		if(req instanceof HttpRicmletRequestImpl) {
+			return new HttpRicmletResponseImpl(this, req, ps);
+		} else {
+			return new HttpResponseImpl(this, req, ps);
+		}
 	}
 
 

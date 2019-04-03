@@ -37,7 +37,7 @@ public class HttpStaticRequest extends HttpRequest {
 			fis.close();
 		} catch (FileNotFoundException e) {
 			// We didn't find the file and send an error
-			resp.setReplyError(404, e.toString());
+			resp.setReplyError(404, "File not found");
 		}
 		
 	}
