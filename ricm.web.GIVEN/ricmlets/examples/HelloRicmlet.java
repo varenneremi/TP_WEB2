@@ -4,11 +4,14 @@ package examples;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import httpserver.itf.HttpRicmlet;
 import httpserver.itf.HttpRicmletRequest;
 import httpserver.itf.HttpRicmletResponse;
 
 public class HelloRicmlet implements httpserver.itf.HttpRicmlet{
-
+	
+	private static HelloRicmlet INSTANCE = null;
+	
 	@Override
 	public void doGet(HttpRicmletRequest req,  HttpRicmletResponse resp) throws IOException {
 		resp.setReplyOk();
@@ -18,5 +21,13 @@ public class HelloRicmlet implements httpserver.itf.HttpRicmlet{
 		ps.print("<BODY><H4> Hello " + req.getArg("name") + " " + req.getArg("surname") + " !!!");
 		ps.println("</H4></BODY></HTML>");
 		ps.println();
+	}
+
+	@Override
+	public HttpRicmlet getInstance() {
+		if (INSTANCE == null)
+        {   INSTANCE = new HelloRicmlet(); 
+        }
+        return INSTANCE;
 	}
 }

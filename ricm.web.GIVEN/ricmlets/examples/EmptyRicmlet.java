@@ -4,11 +4,14 @@ package examples;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import httpserver.itf.HttpRicmlet;
 import httpserver.itf.HttpRicmletRequest;
 import httpserver.itf.HttpRicmletResponse;
 
 public class EmptyRicmlet implements httpserver.itf.HttpRicmlet{
 
+	private static EmptyRicmlet INSTANCE = null;
+	
 	@Override
 	public void doGet(HttpRicmletRequest req, HttpRicmletResponse resp) throws IOException {
 		resp.setReplyError(501, "Not Implemented Method");
@@ -19,4 +22,11 @@ public class EmptyRicmlet implements httpserver.itf.HttpRicmlet{
 		ps.flush();
 	}
 
+	@Override
+	public HttpRicmlet getInstance() {
+		if (INSTANCE == null)
+        {   INSTANCE = new EmptyRicmlet(); 
+        }
+        return INSTANCE;
+	}
 }

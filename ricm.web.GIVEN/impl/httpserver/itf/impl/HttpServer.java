@@ -50,7 +50,8 @@ public class HttpServer {
 	
 	public HttpRicmlet getInstance(String clsname)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, MalformedURLException {
-		throw new Error("No Support for Ricmlets");
+		Class<HttpRicmlet> c = (Class<HttpRicmlet>) Class.forName(clsname);
+		return c.newInstance().getInstance();
 	}
 
 	protected void loop() {
@@ -77,7 +78,7 @@ public class HttpServer {
 		String ressname = parse.nextToken();
 		if (method.equals("GET")) {
 			if(ressname.startsWith("/ricmlets/")) {
-				ressname = ressname.substring("/ricmlet/".length());
+				ressname = ressname.substring("/ricmlet/".length()+1);
 				request = new HttpRicmletRequestImpl(this, method, ressname);
 			} else {
 				request = new HttpStaticRequest(this, method, ressname);

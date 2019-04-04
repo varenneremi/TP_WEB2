@@ -8,7 +8,7 @@ import httpserver.itf.HttpRicmletResponse;
 
 
 public interface HttpRicmlet {
-	
+		
 	/*
 	 * Called by the server to allow a ricmlet to handle a GET request. 
 	 * When overriding this method, read the request data, write the response headers, 
@@ -18,4 +18,10 @@ public interface HttpRicmlet {
 	 * @throws IOException if an input or output error is detected when the ricmlet handles the GET request
 	 */
 	public void doGet(HttpRicmletRequest req, HttpRicmletResponse resp) throws IOException ;
+	
+	/*
+	 * An HttpRicmlet must have the Singleton behavior. 
+	 * This method always return the same HttpRicmlet instance 
+	 */
+	public HttpRicmlet getInstance();
 }
