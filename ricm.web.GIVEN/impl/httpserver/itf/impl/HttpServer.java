@@ -6,11 +6,13 @@ import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import httpserver.itf.HttpRequest;
 import httpserver.itf.HttpResponse;
 import httpserver.itf.HttpRicmlet;
+import httpserver.itf.HttpSession;
 
 
 /**
@@ -29,8 +31,14 @@ public class HttpServer {
 	private int m_port;
 	private File m_folder; 
 	private ServerSocket m_ssoc;
+	
+	private static HashMap<String, HttpRicmlet> instance;
+	private static HashMap<String, HttpSession> session;
 
 	protected HttpServer(int port, String folderName) {
+		instance = new HashMap<String, HttpRicmlet>();
+		session = new HashMap<String, HttpSession>();
+		
 		m_port = port;
 		if (!folderName.endsWith(File.separator)) 
 			folderName = folderName + File.separator;
@@ -50,8 +58,21 @@ public class HttpServer {
 	
 	public HttpRicmlet getInstance(String clsname)
 			throws InstantiationException, IllegalAccessException, ClassNotFoundException, MalformedURLException {
-		Class<HttpRicmlet> c = (Class<HttpRicmlet>) Class.forName(clsname);
-		return c.newInstance().getInstance();
+		HttpRicmlet inst = instance.get(clsname);
+		if(inst == null) {
+			HttpRicmlet classe = (HttpRicmlet) Class.forName(clsname).newInstance();
+			instance.put(clsname, classe);
+			return classe;
+		}
+		return inst;
+	}
+	
+	public HttpSession getSession(String id) {
+		return session.get(id);
+	}
+	
+	public void setSession(String id, HttpSession s) {
+		session.put(id, s);
 	}
 
 	protected void loop() {
@@ -78,8 +99,8 @@ public class HttpServer {
 		String ressname = parse.nextToken();
 		if (method.equals("GET")) {
 			if(ressname.startsWith("/ricmlets/")) {
-				ressname = ressname.substring("/ricmlet/".length()+1);
-				request = new HttpRicmletRequestImpl(this, method, ressname);
+				ressname = ressname.substring("/ricmlets/".length());
+				request = new HttpRicmletRequestImpl(this, method, ressname, br);
 			} else {
 				request = new HttpStaticRequest(this, method, ressname);
 			}

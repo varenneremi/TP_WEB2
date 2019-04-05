@@ -1,6 +1,7 @@
 package httpserver.itf.impl;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import httpserver.itf.HttpSession;
 
@@ -9,8 +10,8 @@ public class Session implements HttpSession {
 	private String id;
 	private HashMap<String, Object> session;
 	
-	public Session(String id) {
-		this.id = id;
+	public Session() {
+		this.id = UUID.randomUUID().toString();
 		session = new HashMap<String, Object>();
 	}
 	

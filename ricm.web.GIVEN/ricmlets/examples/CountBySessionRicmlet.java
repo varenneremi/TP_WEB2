@@ -5,14 +5,11 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 
-import httpserver.itf.HttpRicmlet;
 import httpserver.itf.HttpRicmletRequest;
 import httpserver.itf.HttpRicmletResponse;
 import httpserver.itf.HttpSession;
 
 public class CountBySessionRicmlet implements httpserver.itf.HttpRicmlet{
-	
-	private static CountBySessionRicmlet INSTANCE = null;
 	
 	HashMap<String,Integer> counts = new HashMap<String,Integer>();
 	
@@ -36,11 +33,4 @@ public class CountBySessionRicmlet implements httpserver.itf.HttpRicmlet{
 		ps.println();
 }
 
-	@Override
-	public HttpRicmlet getInstance() {
-		if (INSTANCE == null)
-        {   INSTANCE = new CountBySessionRicmlet(); 
-        }
-        return INSTANCE;
-	}
 }

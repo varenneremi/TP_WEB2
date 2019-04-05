@@ -4,13 +4,10 @@ package examples;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import httpserver.itf.HttpRicmlet;
 import httpserver.itf.HttpRicmletRequest;
 import httpserver.itf.HttpRicmletResponse;
 
 public class CountRicmlet implements httpserver.itf.HttpRicmlet{
-	
-	private static CountRicmlet INSTANCE = null;
 	
 	int count = 0;
 
@@ -26,11 +23,4 @@ public class CountRicmlet implements httpserver.itf.HttpRicmlet{
 		ps.println();
 }
 	
-	@Override
-	public HttpRicmlet getInstance() {
-		if (INSTANCE == null)
-        {   INSTANCE = new CountRicmlet(); 
-        }
-        return INSTANCE;
-	}
 }

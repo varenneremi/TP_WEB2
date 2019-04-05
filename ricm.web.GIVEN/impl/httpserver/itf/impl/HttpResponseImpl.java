@@ -22,6 +22,10 @@ class HttpResponseImpl implements HttpResponse {
 		m_ps.println("Date: " + new Date());
 		m_ps.println("Server: ricm-http 1.0");
 	}
+	
+	public void setCookieInfo(String name, String value) {
+		m_ps.println("Set-Cookie: " + name+"="+value);
+	}
 
 	public void setReplyError(int codeRet, String msg) throws IOException {
 		m_ps.println("HTTP/1.0 "+codeRet+" "+msg);

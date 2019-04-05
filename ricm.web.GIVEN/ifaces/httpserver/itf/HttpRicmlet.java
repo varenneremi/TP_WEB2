@@ -18,10 +18,5 @@ public interface HttpRicmlet {
 	 * @throws IOException if an input or output error is detected when the ricmlet handles the GET request
 	 */
 	public void doGet(HttpRicmletRequest req, HttpRicmletResponse resp) throws IOException ;
-	
-	/*
-	 * An HttpRicmlet must have the Singleton behavior. 
-	 * This method always return the same HttpRicmlet instance 
-	 */
-	public HttpRicmlet getInstance();
+
 }

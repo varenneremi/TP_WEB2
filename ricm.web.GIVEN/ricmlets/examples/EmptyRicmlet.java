@@ -4,13 +4,10 @@ package examples;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import httpserver.itf.HttpRicmlet;
 import httpserver.itf.HttpRicmletRequest;
 import httpserver.itf.HttpRicmletResponse;
 
 public class EmptyRicmlet implements httpserver.itf.HttpRicmlet{
-
-	private static EmptyRicmlet INSTANCE = null;
 	
 	@Override
 	public void doGet(HttpRicmletRequest req, HttpRicmletResponse resp) throws IOException {
@@ -21,12 +18,5 @@ public class EmptyRicmlet implements httpserver.itf.HttpRicmlet{
 		ps.println("<BODY><H4> Undefined doGet method in your ricmlet </H4></BODY></HTML>");
 		ps.flush();
 	}
-
-	@Override
-	public HttpRicmlet getInstance() {
-		if (INSTANCE == null)
-        {   INSTANCE = new EmptyRicmlet(); 
-        }
-        return INSTANCE;
-	}
+	
 }
