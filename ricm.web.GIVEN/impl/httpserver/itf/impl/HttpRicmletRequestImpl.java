@@ -26,12 +26,7 @@ public class HttpRicmletRequestImpl extends HttpRicmletRequest {
 
 	@Override
 	public HttpSession getSession() {
-		HttpSession session = m_hs.getSession(cookie.get("sessionID"));
-		if(session == null) {
-			session = new Session();
-			m_hs.setSession(session.getId(), session);
-		}
-		return session;
+		return m_hs.getSession(cookie.get("sessionID"));
 	}
 
 	@Override

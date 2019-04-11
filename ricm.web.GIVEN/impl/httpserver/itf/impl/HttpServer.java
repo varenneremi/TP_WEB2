@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import javax.swing.Timer;
+
 import httpserver.itf.HttpRequest;
 import httpserver.itf.HttpResponse;
 import httpserver.itf.HttpRicmlet;
@@ -68,11 +70,31 @@ public class HttpServer {
 	}
 	
 	public HttpSession getSession(String id) {
-		return session.get(id);
+		HttpSession s = session.get(id);
+		if(s == null) {
+			s = new Session();
+			setTimer(s);
+			setSession(s.getId(), s);
+		} else {
+			((Timer) s.getValue("timer")).restart();
+		}
+		return s;
 	}
 	
 	public void setSession(String id, HttpSession s) {
 		session.put(id, s);
+	}
+	
+	public void removeSession(HttpSession s) {
+		session.remove(s.getId());
+	}
+	
+	private void setTimer(HttpSession s) {
+		RemoveListener taskPerformer = new RemoveListener(this, s); 
+		Timer t = new Timer(1000*60*2, taskPerformer);
+		t.setRepeats(false);
+		t.start();
+		s.setValue("timer", t);
 	}
 
 	protected void loop() {
